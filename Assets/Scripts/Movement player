@@ -1,0 +1,37 @@
+using UnityEngine;
+
+public class movement : MonoBehaviour
+{
+    public float HorizontalMovement;
+    public float VerticalMovement;
+    public float Speed;
+
+
+    void Start()
+    {
+
+    }
+
+
+    void Update()
+    {
+        MovementPlayer();
+    }
+
+    public void MovementPlayer()
+    {
+        Debug.Log("Player try to move");
+
+        float x = Input.GetAxisRaw("Horizontal");
+        float y = Input.GetAxisRaw("Vertical");
+
+        Vector3 dir = new Vector3(x, y, 0);
+
+        HorizontalMovement = x;
+        VerticalMovement = y;
+
+        dir.Normalize();
+        transform.position += dir * Speed * Time.deltaTime;
+
+    }
+}
