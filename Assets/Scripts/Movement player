@@ -20,8 +20,7 @@ public class movement : MonoBehaviour
 
     public void MovementPlayer()
     {
-        Debug.Log("Player try to move");
-
+        
         float x = Input.GetAxisRaw("Horizontal");
         float y = Input.GetAxisRaw("Vertical");
 
