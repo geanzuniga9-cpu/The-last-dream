@@ -1,0 +1,75 @@
+using UnityEngine;
+
+public enum EstadoEnemigo
+{
+    Descanso,
+    Patrulla,
+    Ataque
+}
+
+public class Enemigo : MonoBehaviour
+{
+    public EstadoEnemigo estadoActual;
+
+    public Transform jugador;
+    public float velocidad = 2f;
+
+    public float distanciaAlJugador;
+
+    void Start()
+    {
+        estadoActual = EstadoEnemigo.Descanso;
+    }
+
+    void Update()
+    {
+        distanciaAlJugador = Vector3.Distance(transform.position, jugador.position);
+
+        switch (estadoActual)
+        {
+            case EstadoEnemigo.Descanso:
+
+                if (distanciaAlJugador < 10f)
+                {
+                    estadoActual = EstadoEnemigo.Patrulla;
+                }
+
+                break;
+
+            case EstadoEnemigo.Patrulla:
+
+                if (distanciaAlJugador > 10f)
+                {
+                    estadoActual = EstadoEnemigo.Descanso;
+                }
+                else
+                {
+                    transform.Translate(
+                        (jugador.position - transform.position).normalized * velocidad * Time.deltaTime
+                    );
+
+                    if (distanciaAlJugador < 3f)
+                    {
+                        estadoActual = EstadoEnemigo.Ataque;
+                    }
+                }
+
+                break;
+
+            case EstadoEnemigo.Ataque:
+
+                if (distanciaAlJugador > 10f)
+                {
+                    estadoActual = EstadoEnemigo.Descanso;
+                }
+                else
+                {
+                    transform.Translate(
+                        (jugador.position - transform.position).normalized * (velocidad * 1.5f) * Time.deltaTime
+                    );
+                }
+
+                break;
+        }
+    }
+}
